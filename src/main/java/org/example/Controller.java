@@ -36,10 +36,10 @@ public class Controller {
                 .check(Objects::nonNull, "manufactureDateTime is required")
                 .get();
 
-        System.out.println(Web3Engine.credentials);
+
 
         //get all params from form
-        Web3Engine.addProduct(Web3Engine.web3j, Web3Engine.credentials, Web3Engine.contractAddress, manufacturer, manufactureDateTime, expiryDate, productDescription,locationManufactured,batchNumber );
+        String hashMap=Web3Engine.addProduct(Web3Engine.web3j, Web3Engine.credentials, Web3Engine.contractAddress, manufacturer, manufactureDateTime, expiryDate, productDescription,locationManufactured,batchNumber );
         context.result("Product set successfully!");
 
 
