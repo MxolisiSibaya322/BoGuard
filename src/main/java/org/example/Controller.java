@@ -6,15 +6,9 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 
-<<<<<<< Updated upstream
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.*;
-import java.util.Objects;
 
-=======
-import java.util.*;
->>>>>>> Stashed changes
 
 
 public class Controller {
