@@ -1,18 +1,19 @@
 package org.example;
 
+import java.util.List;
 import java.util.Map;
 
 public class BusinessData {
     public double revenue= 0.0;
     public double expenses= 0.0;
-    private Map<String,Map<String,Object>> productInfo;
+    private List<Map<String,Map<String,Object>>> productInfo;
 
     
-    public Map<String, Map<String, Object>> getProductInfo() {
+    public List<Map<String,Map<String,Object>>> getProductInfo() {
         return productInfo;
     }
 
-    public void setProductInfo(Map<String, Map<String, Object>> productInfo) {
+    public void setProductInfo(List<Map<String, Map<String, Object>>> productInfo) {
         this.productInfo = productInfo;
     }
 
@@ -22,11 +23,16 @@ public class BusinessData {
     }
 
     public void setExpenses() {
-        for(Map<String,Object> product: productInfo.values()){
-            this.expenses += Integer.parseInt(String.valueOf(product.get("amount")))-Integer.parseInt(String.valueOf(product.get("cost price")));
+
+        for(Map<String, Map<String, Object>> entry : productInfo){
+            for(Map.Entry<String, Map<String, Object>> innerEntry : entry.entrySet() ){
+                Map<String, Object> innerMap = innerEntry.getValue();
+                this.expenses += Integer.parseInt(String.valueOf(innerMap.get("amount")))-Integer.parseInt(String.valueOf(innerMap.get("cost price")));
+            }
         }
 
-//        this.expenses =;
+
+
     }
 
     public double getRevenue() {

@@ -3,8 +3,9 @@ package org.example;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.Objects;
 
 
@@ -59,20 +60,14 @@ public class Controller {
         context.render("/TrendAnalysis.html", Map.of("businessData", businessData));
     };
 
-    private static BusinessData generateSampleData() {
+    private static BusinessData generateSampleData() throws IOException {
         // Generate or retrieve sample business data
         // ...
         BusinessData data = new BusinessData();
-        Map<String, Map<String,Object>> sampleData = new HashMap<>();
-        Map<String,Object> info = new HashMap<>();
-        info.put("amount",12);
-        info.put("CasesSold",200);
-        info.put("cost price",6);
-        sampleData.put("Cappy Fruit Juice Blend",info);
+        List<Map<String, Map<String, Object>>> sampleData = Database.readJsonFile("src/database.json");
 
         data.setProductInfo(sampleData);
         data.setExpenses();
-        info.clear();
         return data;
     }
 
