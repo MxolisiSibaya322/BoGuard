@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product Form</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<h2>Add Product Form</h2>
+
+<form action="/product.action" method="post">
+    <label for="manufacturer">Manufacturer:</label>
+    <input type="text" id="manufacturer" name="manufacturer" required><br>
+
+    <label for="manufactureDateTime">Manufacture Date and Time:</label>
+    <input type="datetime-local" id="manufactureDateTime" name="manufactureDateTime" required><br>
+
+    <label for="expiryDate">Expiry Date:</label>
+    <input type="date" id="expiryDate" name="expiryDate" required><br>
+
+    <label for="productDescription">Product Description:</label>
+    <textarea id="productDescription" name="productDescription" rows="4" required></textarea><br>
+
+    <label for="locationManufactured">Location Manufactured:</label>
+    <input type="text" id="locationManufactured" name="locationManufactured" required><br>
+
+    <label for="batchNumber">Batch Number:</label>
+    <input type="text" id="batchNumber" name="batchNumber" required><br>
+
+    <input type="submit" value="Submit">
+</form>
+
+</body>
+</html>

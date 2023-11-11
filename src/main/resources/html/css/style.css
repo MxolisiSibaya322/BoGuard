@@ -1,0 +1,44 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #00bf63; /* Green background color */
+    color: black; /* White text color */
+}
+
+form {
+    width: 300px;
+    margin: 20px auto; /* Center the form with margin around it */
+    padding: 20px;
+    background-color: #ffffff; /* White background color */
+    border: 4px solid #000000; /* Black border with increased thickness */
+    border-radius: 15px; /* More rounded corners */
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold; /* Bold text for labels */
+    color: black; /* Black label text color */
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+input[type="submit"] {
+    background-color: ##00bf63; /* Green submit button */
+    color: black; /* Black text color for submit button */
+    cursor: pointer;
+    border-radius: 20px; /* More rounded button */
+}
+
+input[type="submit"]:hover {
+    background-color: #27ae60; /* Darker green on hover */
+}
+
+h1 {
+    color: black; /* Black heading text color */
+}

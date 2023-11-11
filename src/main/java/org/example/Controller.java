@@ -10,6 +10,10 @@ import java.util.Objects;
 public class Controller {
 
 
+    public static final Handler add_product = context -> {
+        context.render("/addproduct.html");
+    };
+
     public static final Handler product_action = context -> {
         String manufacturer = context.formParamAsClass("manufacturer", String.class)
                 .check(Objects::nonNull, "Manufacturer is required")
@@ -30,6 +34,8 @@ public class Controller {
                 .check(Objects::nonNull, "manufactureDateTime is required")
                 .get();
 
+        System.out.println(Web3Engine.credentials);
+
         //get all params from form
         Web3Engine.addProduct(Web3Engine.web3j, Web3Engine.credentials, Web3Engine.contractAddress, manufacturer, manufactureDateTime, expiryDate, productDescription,locationManufactured,batchNumber );
         context.result("Product set successfully!");
@@ -39,6 +45,6 @@ public class Controller {
 //        Map<String, Object> viewModel = Map.of("town", locationManufactured, "province", productDescription, "schedule", Schedule);
 
         //interact with API to get the schedules needed
-//        context.render("/schedule.html", viewModel);
+        context.redirect(Routes.ADD_PRODUCT);
     };
 }

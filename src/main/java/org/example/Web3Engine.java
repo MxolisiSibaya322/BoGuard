@@ -10,19 +10,18 @@ import org.web3j.model.Product;
 
 
 public class Web3Engine {
-    public static Web3j web3j;
-    public static Credentials credentials;
-    public static String contractAddress;
-    public Web3Engine(){
-        //geth --dev --ipcpath geth.ipc
-        String ipcPath = "/tmp/geth.ipc";
+    static String ipcPath = "/tmp/geth.ipc";
+    public static Web3j web3j = Web3j.build(new UnixIpcService(ipcPath)); // Create a Web3j instance with the IPC provider
+    public static Credentials credentials = Credentials.create("45d117e4174f10c16de97c2c050550a766fc7dc8f85cab6d0d7c00aedcc65834"); // Replace with your Ethereum account private key
+    public static String contractAddress = "0x6189B1C96b530819B162Ae93fdF56Bc4B291e7C5"; // Replace with your deployed contract address
 
-        // Create a Web3j instance with the IPC provider
-        web3j = Web3j.build(new UnixIpcService(ipcPath));
+        //geth --dev --ipcpath geth.ipc
+
+
+
 //        web3j = Web3j.build(new HttpService("http://localhost:8545"));
-        credentials = Credentials.create("45d117e4174f10c16de97c2c050550a766fc7dc8f85cab6d0d7c00aedcc65834"); // Replace with your Ethereum account private key
-        contractAddress = "0x6189B1C96b530819B162Ae93fdF56Bc4B291e7C5"; // Replace with your deployed contract address
-    }
+
+
 
     public static void addProduct(Web3j web3j, Credentials credentials, String contractAddress, String manufacturer, String manufactureDateTime, String expiryDate, String productDescription, String locationManufactured, String batchNumber  ) throws Exception {
         Product contract = Product.load(contractAddress, web3j, credentials, new DefaultGasProvider());
