@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Product Form</title>
+    <title>Product Form and List</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -32,6 +32,38 @@
 
     <input type="submit" value="Submit">
 </form>
+
+<!-- Check if the product list is not empty -->
+<th:block th:if="${not #lists.isEmpty(product1)}">
+    <h2>Product List</h2>
+
+    <table border="1">
+        <thead>
+        <tr>
+            <th>Manufacturer</th>
+            <th>Manufacture Date and Time</th>
+            <th>Expiry Date</th>
+            <th>Product Description</th>
+            <th>Location Manufactured</th>
+            <th>Batch Number</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Iterate through the list of JsonNodes -->
+        <th:block th:each="product : ${products}">
+            <tr>
+                <!-- Access individual properties from the JsonNode -->
+                <td th:text="${product.get('manufacturer')}"></td>
+                <td th:text="${product.get('manufactureDateTime')}"></td>
+                <td th:text="${product.get('expiryDate')}"></td>
+                <td th:text="${product.get('productDescription')}"></td>
+                <td th:text="${product.get('locationManufactured')}"></td>
+                <td th:text="${product.get('batchNumber')}"></td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</th:block>
 
 </body>
 </html>

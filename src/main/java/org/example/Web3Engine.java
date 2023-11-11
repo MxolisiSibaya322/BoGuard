@@ -5,6 +5,7 @@ import org.web3j.crypto.*;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.admin.methods.response.PersonalUnlockAccount;
 import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.protocol.ipc.UnixIpcService;
 import org.web3j.tx.gas.DefaultGasProvider;
@@ -15,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Optional;
 
 
 public class Web3Engine {
@@ -47,7 +49,8 @@ public class Web3Engine {
 
 
     public static String addProduct(Web3j web3j, Credentials credentials, String contractAddress, String manufacturer, String manufactureDateTime, String expiryDate, String productDescription, String locationManufactured, String batchNumber  ) throws Exception {
-        BigInteger nonce = web3j.ethGetTransactionCount(credentials.getAddress(), DefaultBlockParameterName.LATEST).send().getTransactionCount();
+        BigInteger nonce = web3j.ethGetTransactionCount(credentials.getAddress(), DefaultBlockParameterName.PENDING).send().getTransactionCount();
+        System.out.println(nonce);
 
         // Gas details
         BigInteger gasLimit = BigInteger.valueOf(300000); // Change as needed
@@ -80,6 +83,28 @@ public class Web3Engine {
         // Print the transaction hash
         System.out.println("Transaction Hash: " + transactionHash);
         return transactionHash;
+    }
+
+    /**
+     * The confirmTransactionHash function is used to confirm that a transaction has been successfully mined.
+     *
+     *
+     * @param hashCode Get the transaction receipt
+     *
+     * @return A boolean value
+     *
+     */
+    public static boolean confirmTransactionHash(String hashCode){
+        // Get the transaction receipt
+        Optional<TransactionReceipt> transactionReceipt;
+        try {
+            transactionReceipt = web3j.ethGetTransactionReceipt(hashCode).send().getTransactionReceipt();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Check if the transaction receipt is not null and the status is successful
+        return transactionReceipt != null && transactionReceipt.get().isStatusOK();
     }
 
 }

@@ -1,20 +1,33 @@
 package org.example;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 
+<<<<<<< Updated upstream
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.*;
 import java.util.Objects;
 
+=======
+import java.util.*;
+>>>>>>> Stashed changes
 
 
 public class Controller {
 
-
+    static List<JsonNode> productsData = new ArrayList<>();
     public static final Handler add_product = context -> {
-        context.render("/addproduct.html");
+        String product = "product";
+        Map<String, JsonNode> viewmodel = new HashMap<>();
+        for(int i=0; i < productsData.size(); i++){
+            viewmodel.put(product+String.valueOf(i), productsData.get(i));
+        }
+        Map<String, Map<String, JsonNode>> finData = Map.of("products", viewmodel);
+        context.render("/addproduct.html", finData );
     };
 
     public static final Handler product_action = context -> {
@@ -41,6 +54,16 @@ public class Controller {
 
         //get all params from form
         String hashMap=Web3Engine.addProduct(Web3Engine.web3j, Web3Engine.credentials, Web3Engine.contractAddress, manufacturer, manufactureDateTime, expiryDate, productDescription,locationManufactured,batchNumber );
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.createObjectNode()
+                .put("manufacturer", manufacturer)
+                .put("manufactureDateTime", manufactureDateTime)
+                .put("expiryDate", expiryDate)
+                .put("productDescription", productDescription)
+                .put("locationManufactured", locationManufactured)
+                .put("batchNumber", batchNumber)
+                .put("hash", hashMap);
+        productsData.add(jsonNode);
         context.result("Product set successfully!");
 
 
@@ -48,6 +71,44 @@ public class Controller {
 
         //interact with API to get the schedules needed
         context.redirect(Routes.ADD_PRODUCT);
+    };
+
+    public static final Handler verfification = context ->{
+
+        String hash = context.pathParam("hashcode");
+        JsonNode product = new ObjectMapper().createObjectNode();
+        Map<String, Object> viewModel;
+        boolean verified = false;
+        try{
+        if (Web3Engine.confirmTransactionHash(hash)){
+            for(JsonNode i: productsData){
+                if(i.get("hash").asText().equalsIgnoreCase(hash)){
+                    verified= true;
+                    viewModel = Map.of("manufacturer", i.get("manufacturer"),
+                                    "manufactureDateTime", i.get("manufactureDateTime"),
+                                    "expiryDate", i.get("expiryDate"),
+                                    "productDescription", i.get("productDescription"),
+                                    "locationManufactured", i.get("locationManufactured"),
+                                    "batchNumber", i.get("batchNumber"),
+                                    "hash", i.get("hashMap"),
+                            "verified", verified);
+                                    QRCodeGenerator.generateQRCode(i.get("hashmap").asText());
+                                    verified = true;
+                                    context.render("/verification.html");
+
+                                    break;
+
+                                    }
+
+            }
+
+        }
+
+
+        }catch (NoSuchElementException e){
+            viewModel = Map.of("verified", verified);
+            context.render("/verification.html", viewModel);
+        }
     };
 
 
