@@ -29,7 +29,7 @@ textarea {
 }
 
 input[type="submit"] {
-    background-color: ##00bf63; /* Green submit button */
+    background-color: #00bf63; /* Green submit button */
     color: black; /* Black text color for submit button */
     cursor: pointer;
     border-radius: 20px; /* More rounded button */
