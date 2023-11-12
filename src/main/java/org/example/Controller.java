@@ -6,9 +6,12 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 
+import java.io.FileWriter;
+
 import java.io.IOException;
 import java.util.*;
 
+import java.util.*;
 
 
 public class Controller {
@@ -58,6 +61,8 @@ public class Controller {
                 .put("batchNumber", batchNumber)
                 .put("hash", hashMap);
         productsData.add(jsonNode);
+        QRCodeGenerator.generateQRCode(hashMap);
+        System.out.println();
         context.result("Product set successfully!");
 
 
@@ -70,13 +75,16 @@ public class Controller {
     public static final Handler verfification = context ->{
 
         String hash = context.pathParam("hashcode");
-        JsonNode product = new ObjectMapper().createObjectNode();
+        System.out.println(hash);
         Map<String, Object> viewModel;
         boolean verified = false;
         try{
-        if (Web3Engine.confirmTransactionHash(hash)){
+        if (Web3Engine.confirmTransactionHash(hash, productsData)){
+
             for(JsonNode i: productsData){
-                if(i.get("hash").asText().equalsIgnoreCase(hash)){
+                System.out.println(i.get("hash").asText());
+                if(i.get("hash").asText().toLowerCase().strip().equalsIgnoreCase(hash.strip())){
+                    System.out.println("True");
                     verified= true;
                     viewModel = Map.of("manufacturer", i.get("manufacturer"),
                                     "manufactureDateTime", i.get("manufactureDateTime"),
@@ -84,11 +92,10 @@ public class Controller {
                                     "productDescription", i.get("productDescription"),
                                     "locationManufactured", i.get("locationManufactured"),
                                     "batchNumber", i.get("batchNumber"),
-                                    "hash", i.get("hashMap"),
-                            "verified", verified);
-                                    QRCodeGenerator.generateQRCode(i.get("hashmap").asText());
-                                    verified = true;
-                                    context.render("/verification.html");
+                                    "hash", i.get("hash"),
+                                    "verified", verified);
+
+                                    context.render("/verification.html", viewModel);
 
                                     break;
 
@@ -98,7 +105,7 @@ public class Controller {
 
         }
 
-
+        context.render("/verification.html", Map.of("verified", verified));
         }catch (NoSuchElementException e){
             viewModel = Map.of("verified", verified);
             context.render("/verification.html", viewModel);

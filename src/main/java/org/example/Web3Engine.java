@@ -1,5 +1,6 @@
 package org.example;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.*;
 import org.web3j.protocol.Web3j;
@@ -14,8 +15,8 @@ import org.web3j.utils.Numeric;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -94,17 +95,25 @@ public class Web3Engine {
      * @return A boolean value
      *
      */
-    public static boolean confirmTransactionHash(String hashCode){
+    public static boolean confirmTransactionHash(String hashCode, List<JsonNode> data) {
         // Get the transaction receipt
-        Optional<TransactionReceipt> transactionReceipt;
-        try {
-            transactionReceipt = web3j.ethGetTransactionReceipt(hashCode).send().getTransactionReceipt();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
-        // Check if the transaction receipt is not null and the status is successful
-        return transactionReceipt != null && transactionReceipt.get().isStatusOK();
-    }
+        for (JsonNode i : data) {
+            if (i.get("hash").asText().equalsIgnoreCase(hashCode)) {
+                return true;
+            }
+
+        }
+//        Optional<TransactionReceipt> transactionReceipt;
+//        try {
+//            transactionReceipt = web3j.ethGetTransactionReceipt(hashCode).send().getTransactionReceipt();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//
+//        // Check if the transaction receipt is not null and the status is successful
+//        return transactionReceipt.isPresent() && transactionReceipt.get().isStatusOK();
+        return false;};
 
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,20 +15,61 @@
             width: 100px;
             height: 100px;
         }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
     </style>
 </head>
 <body>
 
 <h2>Verification Status</h2>
 
-<div th:if="${verified}">
-<p>Verified!</p>
-<img src="images/tick.png" alt="Tick">
-<div/>
-    <div th:unless="${verified}">
-<p>Not Verified!</p>
-<img src="images/cross.png" alt="Cross">
-<div/>
+<section th:if="${verified}">
+    <p>Verified!</p>
+    <img src="/images/tick.png" alt="Tick">
+
+    <table>
+        <thead>
+        <tr>
+            <th>Manufacturer</th>
+            <th>Manufacture DateTime</th>
+            <th>Expiry Date</th>
+            <th>Product Description</th>
+            <th>Location Manufactured</th>
+            <th>Batch Number</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${manufacturer}"></td>
+            <td th:text="${manufactureDateTime}"></td>
+            <td th:text="${expiryDate}"></td>
+            <td th:text="${productDescription}"></td>
+            <td th:text="${locationManufactured}"></td>
+            <td th:text="${batchNumber}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+</section>
+
+<section th:unless="${verified}">
+    <p>Not Verified!</p>
+    <img src="/images/cross.png" alt="Cross">
+</section>
 
 </body>
 </html>
