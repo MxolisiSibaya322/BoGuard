@@ -18,12 +18,7 @@ public class Controller {
 
     static List<JsonNode> productsData = new ArrayList<>();
     public static final Handler add_product = context -> {
-        String product = "product";
-        Map<String, JsonNode> viewmodel = new HashMap<>();
-        for(int i=0; i < productsData.size(); i++){
-            viewmodel.put(product+String.valueOf(i), productsData.get(i));
-        }
-        Map<String, Map<String, JsonNode>> finData = Map.of("products", viewmodel);
+        Map<String, List<JsonNode>> finData = Map.of("products", productsData);
         context.render("/addproduct.html", finData );
     };
 
