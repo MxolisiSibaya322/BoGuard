@@ -21,6 +21,9 @@ public class Controller {
         Map<String, List<JsonNode>> finData = Map.of("products", productsData);
         context.render("/addproduct.html", finData );
     };
+    public  static  final Handler signupComplete= ctx -> {
+        ctx.render("/signupComplete.html" );
+    };
 
     public static final Handler product_action = context -> {
         String manufacturer = context.formParamAsClass("manufacturer", String.class)
