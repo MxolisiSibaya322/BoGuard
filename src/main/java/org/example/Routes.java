@@ -20,6 +20,7 @@ public class Routes {
             post(PRODUCT_ACTION, Controller.product_action);
             get(TREND_ANALYSIS,Controller.trendAnalysisHandler);
             get("/signupComplete",Controller.signupComplete);
+            get("/dashboard",Controller.dashboard);
         });
     }
 }

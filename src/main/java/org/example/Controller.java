@@ -24,6 +24,9 @@ public class Controller {
     public  static  final Handler signupComplete= ctx -> {
         ctx.render("/signupComplete.html" );
     };
+    public  static  final Handler dashboard= ctx -> {
+        ctx.render("/dashboard.html" );
+    };
 
     public static final Handler product_action = context -> {
         String manufacturer = context.formParamAsClass("manufacturer", String.class)
@@ -115,7 +118,6 @@ public class Controller {
 
     public static final Handler trendAnalysisHandler = context ->{
         BusinessData businessData = generateSampleData();
-
 
         context.render("/TrendAnalysis.html", Map.of("businessData", businessData));
     };
