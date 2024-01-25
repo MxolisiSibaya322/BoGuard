@@ -94,22 +94,22 @@ public class Web3Engine {
     public static boolean confirmTransactionHash(String hashCode, List<JsonNode> data) {
         // Get the transaction receipt
 
-        for (JsonNode i : data) {
-            if (i.get("hash").asText().equalsIgnoreCase(hashCode)) {
-                return true;
-            }
+        // for (JsonNode i : data) {
+        //     if (i.get("hash").asText().equalsIgnoreCase(hashCode)) {
+        //         return true;
+        //     }
 
-        }
-//        Optional<TransactionReceipt> transactionReceipt;
-//        try {
-//            transactionReceipt = web3j.ethGetTransactionReceipt(hashCode).send().getTransactionReceipt();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//
-//        // Check if the transaction receipt is not null and the status is successful
-//        return transactionReceipt.isPresent() && transactionReceipt.get().isStatusOK();
+        // }
+       Optional<TransactionReceipt> transactionReceipt;
+       try {
+           transactionReceipt = web3j.ethGetTransactionReceipt(hashCode).send().getTransactionReceipt();
+       } catch (IOException e) {
+           throw new RuntimeException(e);
+       }
+
+
+       // Check if the transaction receipt is not null and the status is successful
+       return transactionReceipt.isPresent() && transactionReceipt.get().isStatusOK();
         return false;};
 
 }
